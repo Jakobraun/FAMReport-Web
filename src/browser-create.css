@@ -1,0 +1,51 @@
+.working-panel { background: white; padding: 20px; border: 1px solid #dce3e9; border-radius: 12px; margin: 18px 0; }
+.working-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
+.working-actions button, .download-working { border: 1px solid #1565a0; border-radius: 7px; padding: 11px 16px; background: #1565a0; color: white; text-decoration: none; cursor: pointer; font: inherit; }
+.working-actions button:disabled { opacity: .5; cursor: default; }
+.working-actions button:not(:disabled) { cursor: pointer; }
+#cancel-create { background: white; color: #1565a0; }
+dialog { max-width: 640px; width: calc(100% - 48px); max-height: calc(100% - 48px); overflow: auto; padding: 24px; border: 0; border-radius: 14px; box-shadow: 0 10px 60px #0004; }
+dialog::backdrop { background: #14263899; }
+dialog label, #preview-search { display: block; margin: 12px 0 7px; font-weight: 600; }
+dialog input[type=file] { max-width: 100%; }
+.file-summary { color: #536777; line-height: 1.5; overflow-wrap: anywhere; }
+#import-status[data-error=true] { color: #b12121; }
+#import-warnings { padding-left: 24px; color: #765700; }
+#update-dialog { max-width: min(1100px, calc(100vw - 48px)); }
+#update-warnings { color: #765700; }
+.review-scroll { max-height: 45vh; overflow: auto; border: 1px solid #dce3e9; margin: 14px 0; }
+.review-scroll table { width: 100%; border-collapse: collapse; }
+.review-scroll th, .review-scroll td { padding: 8px; border-bottom: 1px solid #dce3e9; text-align: left; vertical-align: top; overflow-wrap: anywhere; min-width: 90px; }
+.review-scroll th { position: sticky; top: 0; background: white; }
+.review-scroll select { min-width: 145px; max-width: 190px; }
+.review-conflict { background: #fff1e8; }
+#update-name-fields input { display: block; width: 100%; padding: 8px; }
+#offline-status { font-weight: 600; }
+#preview-search { width: 100%; padding: 12px; border: 1px solid #bac6d0; border-radius: 6px; }
+#friendly-name-fields input, #preview-site { width: 100%; padding: 10px; border: 1px solid #bac6d0; border-radius: 6px; box-sizing: border-box; }
+#friendly-name-review { margin: 20px 0; padding: 16px; background: #eef5fb; border-radius: 8px; }
+#friendly-name-review label { overflow-wrap: anywhere; }
+#apply-friendly-names { margin-top: 16px; padding: 10px 14px; font: inherit; cursor: pointer; }
+#preview-metrics { margin: 20px 0; grid-template-columns: repeat(4, minmax(0, 1fr)); }
+#preview-map { display: block; }
+#preview-map.preview-grid { display: grid; }
+.working-panel summary { cursor: pointer; font-weight: 700; }
+#preview-metrics > div { background: white; border: 1px solid #dce3e9; border-radius: 10px; padding: 18px; display: flex; flex-direction: column; }
+#preview-metrics strong { font-size: 1.6rem; }
+.working-tables { display: flex; flex-wrap: wrap; gap: 24px; overflow-x: auto; }
+.working-tables > div { flex: 1 1 300px; overflow-x: auto; }
+.working-tables table { width: 100%; border-collapse: collapse; }
+.working-tables th, .working-tables td { text-align: left; padding: 10px; border-bottom: 1px solid #e2e7eb; }
+.working-inline { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin: 12px 0; }
+.working-inline input { min-width: 100px; padding: 8px; border: 1px solid #bac6d0; border-radius: 6px; }
+.working-inline button, .working-tables button, #all-rooms button { padding: 7px 10px; font: inherit; cursor: pointer; }
+#all-rooms { display: flex; flex-wrap: wrap; gap: 6px; }
+#all-rooms button { background: white; border: 1px solid #9db6c9; border-radius: 6px; }
+.preview-cart { cursor: pointer; padding: 12px; min-height: 80px; }
+.preview-cart h3, .preview-cart p { margin: 5px 0; }
+.map-cart-popout.preview-cart h3, .map-cart-popout.preview-cart p { margin: 0; }
+.preview-cart--short { background: #ffe7e7; }
+.preview-cart--spare { background: #e2f4e9; }
+.preview-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 12px; }
+[hidden] { display: none !important; }
+@media (max-width: 650px) { .hero { flex-direction: column; align-items: stretch; } dialog { padding: 18px; } #preview-metrics { grid-template-columns: repeat(2, minmax(0, 1fr)); } }

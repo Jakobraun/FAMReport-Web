@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chromebook Dashboard — working file</title>
+    <link rel="stylesheet" href="src/styles.css" />
+    <link rel="stylesheet" href="src/browser-create.css" />
+  </head>
+  <body>
+    <main class="shell">
+      <header class="hero">
+        <div>
+          <p class="eyebrow">Chromebook Dashboard · Working file</p>
+          <h1>Create your working file</h1>
+          <p class="lede">Combine tag-listing CSVs and classroom roster XLSXs into one portable workbook.</p>
+          <p>Files are processed in this browser. Include a roster for each school in the tag listings.</p>
+          <p id="workspace-status" role="status"></p>
+        </div>
+        <div class="working-actions">
+          <button id="start-create" type="button">Create working file</button>
+          <button id="open-working" type="button">Open working file</button><input id="open-working-input" type="file" accept=".xlsx,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" hidden />
+          <button id="save-working" type="button" hidden>Save working file</button>
+          <a id="download-working" class="download-working" hidden>Download working file</a>
+          <span id="offline-status" role="status">Checking offline availability…</span>
+        </div>
+      </header>
+      <section id="empty-state" class="working-panel">
+        <h2>Start with source exports</h2>
+        <p>You can select CSVs and rosters in either order. Review schools, dates, discarded rows, and record counts before creating the workbook.</p>
+        <p>The workbook stores devices, students, rooms, inventory, unmatched scans, and app settings.</p>
+      </section>
+      <section id="working-preview" hidden aria-labelledby="preview-title">
+        <h2 id="preview-title"></h2>
+        <p id="preview-notice">Changes are saved in this browser. Save the working file to keep an external copy.</p>
+        <div class="working-panel"><h3>Update from source files</h3><p>Review all differences before replacing source values. Files stay in this browser.</p><div class="working-actions"><button id="update-csv" type="button">Import updated CSV</button><button id="update-roster" type="button">Import updated roster XLSX</button></div></div>
+        <div id="preview-metrics" class="metrics"></div>
+        <div class="working-panel"><label for="preview-site">School</label><select id="preview-site"></select><label for="preview-search">Search rooms, teachers, students, IDs, tags, or serial numbers</label><input id="preview-search" type="search" /><div id="search-results" class="working-tables"></div></div>
+        <div id="preview-map" class="classroom-grid"></div>
+        <section id="preview-room" class="working-panel" hidden aria-labelledby="room-title"><h3 id="room-title"></h3><div id="room-tables" class="working-tables"></div></section>
+        <section class="working-panel"><h3>Classrooms</h3><form id="add-room-form" class="working-inline"><label for="new-room">New room name or number</label><input id="new-room" required maxlength="80" /><button type="submit">Add room</button></form><div id="all-rooms"></div></section>
+        <details class="working-panel"><summary>Rooms without cart devices</summary><div id="preview-empty-rooms" class="working-tables"></div></details>
+        <details class="working-panel"><summary>Other device lists</summary><div id="device-details" class="working-tables"></div></details>
+      </section>
+    </main>
+    <dialog id="create-dialog" aria-labelledby="create-title">
+      <form id="create-form">
+        <h2 id="create-title">Create working file</h2>
+        <p>Select one current tag listing and roster per school. You can select several files together; all schools will share one working workbook.</p>
+        <label for="initial-csv">Tag listings (.csv)</label><input id="initial-csv" type="file" accept=".csv,text/csv" multiple />
+        <p id="csv-summary" class="file-summary">No CSV selected.</p>
+        <label for="initial-roster">Classroom rosters (.xlsx)</label><input id="initial-roster" type="file" accept=".xlsx,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" multiple />
+        <p id="roster-summary" class="file-summary">No roster selected.</p>
+        <p id="import-status" role="status" aria-live="polite"></p>
+        <ul id="import-warnings"></ul>
+        <section id="friendly-name-review" hidden aria-labelledby="friendly-name-title"><h3 id="friendly-name-title">Name these products</h3><p>Enter the friendly name you use for each product. These names are saved in your working file.</p><div id="friendly-name-fields"></div><button id="apply-friendly-names" type="button">Use these names</button></section>
+        <div class="working-actions"><button id="cancel-create" type="button">Cancel</button><button id="confirm-create" type="submit" disabled>Create timestamped workbook</button></div>
+      </form>
+    </dialog>
+    <dialog id="recovery-dialog" aria-labelledby="recovery-title"><h2 id="recovery-title">Choose a working copy</h2><p id="recovery-message"></p><div class="working-actions"><button id="keep-browser" type="button">Keep browser changes</button><button id="use-opened" type="button">Use opened file</button><button id="cancel-recovery" type="button">Cancel</button></div></dialog>
+    <dialog id="update-dialog" aria-labelledby="update-title"><h2 id="update-title">Review updated import</h2><p id="update-summary"></p><label><input id="update-complete" type="checkbox"> This is a complete export for the selected school(s). Propose removals for missing records.</label><p id="update-date"></p><p id="update-status" role="status"></p><ul id="update-warnings"></ul><div id="update-names" hidden><h3>Name new products</h3><div id="update-name-fields"></div><button id="update-apply-names" type="button">Use these names</button></div><div id="update-review" hidden><p id="update-totals"></p><button id="update-accept-clear" type="button">Use incoming for nonconflicting changes</button><div class="review-scroll"><table><thead><tr><th>School</th><th>Record</th><th>Field</th><th>Current</th><th>Incoming</th><th>Action</th></tr></thead><tbody id="update-rows"></tbody></table></div></div><div class="working-actions"><button id="update-cancel" type="button">Cancel</button><button id="update-apply" type="button" disabled>Apply selected changes</button></div></dialog>
+    <input id="update-csv-input" type="file" accept=".csv,text/csv" multiple hidden><input id="update-roster-input" type="file" accept=".xlsx,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" hidden>
+    <script>
+      if (location.protocol === 'file:') {
+        document.querySelector('#workspace-status').textContent = 'This local file can show the dashboard layout but cannot run its buttons. Open the dashboard from its web address.';
+        document.querySelectorAll('button').forEach(button => { button.disabled = true; });
+      }
+    </script>
+    <script type="module" src="src/browser-create.mjs"></script>
+  </body>
+</html>
